@@ -1,3 +1,3 @@
 dependencies {
-    api(rootProject.stronghold.kotlinx.serialization)
+    implementation(stronghold.bundles.kotlin)
 }
