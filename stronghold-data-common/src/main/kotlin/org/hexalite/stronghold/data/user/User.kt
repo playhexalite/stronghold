@@ -7,6 +7,10 @@ import kotlinx.serialization.Serializable
 import org.hexalite.stronghold.data.serialization.UUIDSerializer
 import java.util.*
 
+/**
+ * A data class representing an [User] that joined any of all Hexalite Network servers at
+ * least once.
+ */
 @Serializable
 data class User(
     @Serializable(with = UUIDSerializer::class)
@@ -15,9 +19,11 @@ data class User(
     @SerialName("last_username")
     val lastUsername: String = "",
     @SerialName("last_seen")
-    val lastSeen: String = "",
+    val lastSeen: Instant = Clock.System.now(),
     @SerialName("created_at")
     val createdAt: Instant = Clock.System.now(),
     @SerialName("updated_at")
     val updatedAt: Instant = Clock.System.now()
-)
+) {
+    companion object
+}

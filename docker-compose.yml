@@ -1,0 +1,51 @@
+
+version: '3'
+
+services:
+  database-container:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: johndoe
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: stronghold
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - postgres-network
+  pgadmin-container:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "5050:5050"
+    networks:
+      - postgres-network
+  rabbitmq-container:
+    image: rabbitmq:latest
+    ports:
+      # AMQP protocol port
+      - '5672:5672'
+      # HTTP management UI
+      - '15672:15672'
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+      - rabbitmq-log:/var/log/rabbitmq
+    networks:
+      - rabbitmq-network
+
+volumes:
+  postgres-data:
+  rabbitmq-log:
+  rabbitmq-data:
+
+networks:
+  postgres-network:
+    driver: bridge
+  rabbitmq-network:
+    driver: bridge

@@ -1,0 +1,29 @@
+# spring
+spring:
+  application:
+    name: stronghold-rsocket-server
+  main:
+    lazy-initialization: true
+  rsocket:
+    server:
+      transport: tcp
+      port: 7000
+  config:
+    activate:
+      on-profile: rsocket-tcp
+logging:
+  level:
+    root: info
+    io:
+      rsocket:
+        FrameLogger: debug
+---
+db:
+  url: ${DATABASE_URL:postgresql://localhost:5432/stronghold}
+  user: ${DATABASE_USER:johndoe}
+  password: ${DATABASE_PASSWORD:password}
+spring:
+  r2dbc:
+    url: r2dbc:${db.url}
+    username: ${db.user}
+    password: ${db.password}

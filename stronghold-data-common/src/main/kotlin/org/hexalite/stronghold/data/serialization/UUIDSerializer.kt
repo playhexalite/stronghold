@@ -10,6 +10,10 @@ import java.util.*
 
 inline fun String.parseUuid(): UUID = UUIDSerializer.parse(this)
 
+inline fun String.parseUuidOrNull(): UUID? = runCatching {
+    UUIDSerializer.parse(this)
+}.getOrNull()
+
 object UUIDSerializer : KSerializer<UUID> {
     private val digits = IntArray(127) { -1 }
 
