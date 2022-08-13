@@ -2,7 +2,7 @@
     <img src="./assets/logo-with-font.svg" alt=""/> 
     <h3><code>stronghold.kt</code></h3>
     <strong>🏗️ An implementation of our Java Edition services with Spring + RSocket</strong>
-    <br/>
+    <br/> <br/>
     <a href="https://discord.hexalite.org">
         <img src="https://img.shields.io/discord/908438033613848596?colorA=1e1e28&colorB=1187c9&style=for-the-badge&logo=discord" />
     </a>
