@@ -1,0 +1,20 @@
+[versions]
+kotlin = "1.7.20-Beta"
+ktor = "2.1.0"
+
+[libraries]
+spring-boot-dependencies = { module = "org.springframework.boot:spring-boot-dependencies", version = "2.7.2" }
+kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version = "1.4.0-RC" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+ktor-client-rsocket = { module = "io.rsocket.kotlin:rsocket-ktor-client", version = "0.15.4" }
+
+[bundles]
+ktor-client = ["ktor-client-core", "ktor-client-cio"]
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+spring-boot = { id = "org.springframework.boot", version = "2.7.2" }
+spring-dependency-management = { id = "io.spring.dependency-management", version = "1.0.12.RELEASE" }
