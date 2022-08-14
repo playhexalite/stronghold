@@ -22,10 +22,8 @@ object UUIDSerializer : KSerializer<UUID> {
             digits['0'.code + i] = i
         }
         for (i in 0..5) {
-            @Suppress("NAME_SHADOWING")
-            val i = i + 10
-            digits['a'.code + i] = i
-            digits['A'.code + i] = i
+            digits['a'.code + i] = 10 + i
+            digits['A'.code + i] = 10 + i
         }
     }
 
@@ -59,6 +57,7 @@ object UUIDSerializer : KSerializer<UUID> {
     private fun String.short(index: Int): Int = (byte(index) shl 8) + byte(index + 2)
 
     fun parse(input: String): UUID {
+        println(input)
         if (input[8] != '-' || input[13] != '-' || input[18] != '-' || input[23] != '-') {
             input.throwBadFormatSerializationException()
         }

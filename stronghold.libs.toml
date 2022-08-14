@@ -11,6 +11,7 @@ ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 ktor-client-rsocket = { module = "io.rsocket.kotlin:rsocket-ktor-client", version = "0.15.4" }
 spring-web = { module = "org.springframework:spring-web", version = "5.3.22" }
 caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version = "3.1.1" }
+mockk = { module = "io.mockk:mockk", version = "1.12.5" }
 
 [bundles]
 ktor-client = ["ktor-client-core", "ktor-client-cio"]
