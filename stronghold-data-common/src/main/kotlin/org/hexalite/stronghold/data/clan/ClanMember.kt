@@ -14,11 +14,10 @@ import java.util.*
 @Serializable
 data class ClanMember(
     @SerialName("clan_id")
-    val clanId: UUID = UUID.randomUUID(),
+    val clanId: UInt = 0u,
     @SerialName("member_id")
     val memberId: UUID = UUID.randomUUID(),
-    @SerialName("clan_role")
-    val clanRole: ClanRole? = null
+    val role: ClanRole? = null
 ) {
     companion object
 }

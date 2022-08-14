@@ -1,5 +1,6 @@
 package org.hexalite.stronghold.rsocket.server.model
 
+import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
@@ -14,12 +15,12 @@ import java.util.*
 @Table("users")
 data class StrongholdUser(
     @Id
-    val id: UUID,
-    val hexes: UInt,
-    val lastUsername: String,
-    val lastSeen: Instant,
+    val id: UUID = UUID.randomUUID(),
+    val hexes: Int = 0,
+    val lastUsername: String = "",
+    val lastSeen: Instant = Clock.System.now(),
     @CreatedDate
-    val createdAt: Instant,
+    val createdAt: Instant = Clock.System.now(),
     @LastModifiedDate
-    val updatedAt: Instant,
+    val updatedAt: Instant = Clock.System.now(),
 )

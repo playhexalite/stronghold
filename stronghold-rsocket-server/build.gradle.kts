@@ -8,6 +8,7 @@ plugins {
 dependencies {
     api(project(":stronghold-data-common"))
     implementation(stronghold.bundles.kotlin)
+    implementation(stronghold.kotlinx.serialization.cbor)
     implementation("org.springframework.boot:spring-boot-starter-amqp")
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
     implementation("org.springframework.boot:spring-boot-starter-rsocket")

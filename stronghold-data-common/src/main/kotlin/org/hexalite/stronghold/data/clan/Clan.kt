@@ -2,6 +2,7 @@ package org.hexalite.stronghold.data.clan
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import org.hexalite.stronghold.data.serialization.Optional
 import org.hexalite.stronghold.data.serialization.UUIDSerializer
 import org.hexalite.stronghold.data.user.User
 import java.util.*
@@ -18,6 +19,8 @@ data class Clan(
     @SerialName("leader_id")
     @Serializable(with = UUIDSerializer::class)
     val leaderId: UUID = UUID.randomUUID(),
+    val leader: Optional<User> = Optional.Empty(),
+    val members: Optional<List<User>> = Optional.Empty()
 ) {
     companion object
 }

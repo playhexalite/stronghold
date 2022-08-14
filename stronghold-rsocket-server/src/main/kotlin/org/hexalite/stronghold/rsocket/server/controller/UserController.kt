@@ -15,15 +15,15 @@ import org.springframework.stereotype.Controller
 @Route("users")
 class UserController(private val service: UserService) {
     @Route("retrieve.id")
-    suspend fun retrieveUserById(@Payload request: UserRequestPayload.Id): User? =
+    suspend fun retrieveUserById(@Payload request: UserRequestPayload.Id): User =
          request.value.map(service::findById) ?: throw UserNotFoundException("${request.value}")
 
     @Route("retrieve.last_username")
-    suspend fun retrieveUserByLastUsername(@Payload request: UserRequestPayload.LastUsername): User? =
+    suspend fun retrieveUserByLastUsername(@Payload request: UserRequestPayload.LastUsername): User =
         request.value.map(service::findByLastUsername) ?: throw UserNotFoundException(request.value)
 
     @Route("retrieve.fallback")
-    suspend fun retrieveUserFallingBack(@Payload request: UserRequestPayload.FallingBack): User? =
+    suspend fun retrieveUserFallingBack(@Payload request: UserRequestPayload.FallingBack): User =
         request.value.parseUuidOrNull()?.map(service::findById) ?:
         request.value.map(service::findByLastUsername) ?:
         throw UserNotFoundException(request.value)
