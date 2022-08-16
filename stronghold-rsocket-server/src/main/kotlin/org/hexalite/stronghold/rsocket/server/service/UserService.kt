@@ -1,11 +1,13 @@
 package org.hexalite.stronghold.rsocket.server.service
 
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.flow.toSet
 import org.hexalite.stronghold.data.user.User
 import org.hexalite.stronghold.rsocket.server.adapter.common
 import org.hexalite.stronghold.rsocket.server.domain.ClanMemberRepository
 import org.hexalite.stronghold.rsocket.server.domain.ClanRepository
 import org.hexalite.stronghold.rsocket.server.domain.UserRepository
+import org.hexalite.stronghold.rsocket.server.domain.UserRoleRepository
 import org.hexalite.stronghold.rsocket.server.extension.map
 import org.hexalite.stronghold.rsocket.server.model.StrongholdUser
 import org.springframework.cache.annotation.CacheConfig
@@ -18,13 +20,15 @@ import java.util.*
 class UserService(
     private val repository: UserRepository,
     private val clans: ClanRepository,
-    private val members: ClanMemberRepository
+    private val members: ClanMemberRepository,
+    private val roles: UserRoleRepository,
 ) {
     @Cacheable
     suspend fun StrongholdUser.mapped() = map {
         val member = members.findById(it.id)
-        val clan = if(member != null) clans.findById(member.clanId) else null
-        it.common(clan)
+        val roles = roles.findAllByUserId(it.id)
+        val clan = member?.clanId?.map(clans::findById)
+        it.common(clan, roles.toList())
     }
 
     @Cacheable

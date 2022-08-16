@@ -1,4 +1,4 @@
-package org.hexalite.stronghold.rsocket.server.io
+package org.hexalite.stronghold.data.io
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
@@ -25,9 +25,6 @@ import java.lang.reflect.Type
 class KotlinxSerializationCborEncoder(
     val cbor: Cbor
 ) : AbstractEncoder<Any>(MediaType.APPLICATION_CBOR, MediaType("application", "*+cbor")) {
-    var maxInMemorySize = 256 * 1024
-    private val mimeTypes = mutableListOf<MimeType>(MediaType.APPLICATION_CBOR)
-
     companion object {
         private val serializerCache = ConcurrentReferenceHashMap<Type, KSerializer<Any>>()
     }

@@ -20,7 +20,7 @@ data class Clan(
     @Serializable(with = UUIDSerializer::class)
     val leaderId: UUID = UUID.randomUUID(),
     val leader: Optional<User> = Optional.Empty(),
-    val members: Optional<List<User>> = Optional.Empty()
+    val members: Optional<List<User>> = Optional.Empty(),
 ) {
     companion object
 }

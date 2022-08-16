@@ -1,20 +1,15 @@
 [versions]
 kotlin = "1.7.20-Beta"
-ktor = "2.1.0"
 
 [libraries]
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version = "1.4.0-RC" }
 kotlinx-serialization-cbor = { module = "org.jetbrains.kotlinx:kotlinx-serialization-cbor", version = "1.4.0-RC" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version = "0.4.0" }
-ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
-ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
-ktor-client-rsocket = { module = "io.rsocket.kotlin:rsocket-ktor-client", version = "0.15.4" }
-spring-web = { module = "org.springframework:spring-web", version = "5.3.22" }
 caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version = "3.1.1" }
 mockk = { module = "io.mockk:mockk", version = "1.12.5" }
+lettuce = { module = "io.lettuce:lettuce-core", version = "6.2.0.RELEASE" }
 
 [bundles]
-ktor-client = ["ktor-client-core", "ktor-client-cio"]
 kotlin = ["kotlinx-serialization", "kotlinx-datetime"]
 
 [plugins]
@@ -22,4 +17,4 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 spring-boot = { id = "org.springframework.boot", version = "2.7.2" }
-spring-dependency-management = { id = "io.spring.dependency-management", version = "1.0.12.RELEASE" }
+spring-dependency-management = { id = "io.spring.dependency-management", version = "1.0.13.RELEASE" }

@@ -27,6 +27,7 @@ data class User(
     @SerialName("updated_at")
     val updatedAt: Instant = Clock.System.now(),
     val clan: Optional<Clan> = Optional.Empty(),
+    val roles: Optional<List<UserRole>> = Optional.Empty(),
 ) {
     companion object
 }

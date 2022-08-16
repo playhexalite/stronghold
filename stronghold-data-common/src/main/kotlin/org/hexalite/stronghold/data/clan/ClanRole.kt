@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 enum class ClanRole {
-    @SerialName("OFFICER")
+    @SerialName("officer")
     Officer;
 
     companion object

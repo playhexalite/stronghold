@@ -6,8 +6,8 @@ import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories
 
 @SpringBootApplication
 @EnableR2dbcRepositories
-class StrongholdRSocketServerApplication
+class StrongholdServerApplication
 
 fun main(args: Array<String>) {
-    runApplication<StrongholdRSocketServerApplication>(*args)
+    runApplication<StrongholdServerApplication>(*args)
 }

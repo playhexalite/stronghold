@@ -1,4 +1,4 @@
-package org.hexalite.stronghold.rsocket.server.io
+package org.hexalite.stronghold.data.io
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer

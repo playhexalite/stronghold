@@ -1,9 +1,10 @@
 # spring
 spring:
   application:
-    name: stronghold-rsocket-server
+    name: stronghold-server
   main:
     lazy-initialization: true
+    web-application-type: reactive
   rsocket:
     server:
       transport: tcp
@@ -27,3 +28,12 @@ spring:
     url: r2dbc:${db.url}
     username: ${db.user}
     password: ${db.password}
+security:
+  auth:
+    strategy: ${AUTH_STRATEGY:renewing}
+  jwt:
+    secret-key: ${JWT_SECRET_KEY:testKey000}
+redis:
+  prefer-unix-domain-socket: ${PREFER_UNIX_DOMAIN_SOCKET:true}
+  host: localhost
+  port: 6379

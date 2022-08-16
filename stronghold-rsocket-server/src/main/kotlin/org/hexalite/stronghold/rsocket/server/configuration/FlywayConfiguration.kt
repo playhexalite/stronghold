@@ -1,18 +1,19 @@
 package org.hexalite.stronghold.rsocket.server.configuration
 
 import org.flywaydb.core.Flyway
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.core.env.Environment
 
 @Configuration
-class FlywayConfiguration(val environment: Environment) {
+class FlywayConfiguration(
+    @Value("\${db.user}") val user: String,
+    @Value("\${db.password}") val password: String,
+    @Value("\${db.url}") val url: String
+) {
     @Bean(initMethod = "migrate")
     fun flyway(): Flyway {
-        val url = "jdbc:${environment.getRequiredProperty("db.url")}"
-        val user = environment.getRequiredProperty("db.user")
-        val password = environment.getRequiredProperty("db.password")
-        val config = Flyway.configure().dataSource(url, user, password)
+        val config = Flyway.configure().dataSource("jdbc:$url", user, password)
         return Flyway(config)
     }
 }
