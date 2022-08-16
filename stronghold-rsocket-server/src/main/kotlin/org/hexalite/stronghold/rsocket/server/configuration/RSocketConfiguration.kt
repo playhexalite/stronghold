@@ -18,8 +18,8 @@ class RSocketConfiguration {
             val cbor = Cbor {
                 ignoreUnknownKeys = true
             }
-            encoders { it.add(KotlinxSerializationCborEncoder(cbor)) }
-                .decoders { it.add(KotlinxSerializationCborDecoder(cbor)) }
+            encoder(KotlinxSerializationCborEncoder(cbor))
+                .decoder(KotlinxSerializationCborDecoder(cbor))
         }
         .routeMatcher(PathPatternRouteMatcher())
         .build()

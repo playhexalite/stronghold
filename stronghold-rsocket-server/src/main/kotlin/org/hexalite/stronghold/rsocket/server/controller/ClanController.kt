@@ -2,7 +2,7 @@ package org.hexalite.stronghold.rsocket.server.controller
 
 import org.hexalite.stronghold.data.clan.Clan
 import org.hexalite.stronghold.data.clan.protocol.ClanRequestPayload
-import org.hexalite.stronghold.data.exceptions.ClanNotFoundException
+import org.hexalite.stronghold.data.exception.ClanNotFoundException
 import org.hexalite.stronghold.data.user.protocol.UserRequestPayload
 import org.hexalite.stronghold.rsocket.server.adapter.stronghold
 import org.hexalite.stronghold.rsocket.server.extension.Route

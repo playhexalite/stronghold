@@ -1,6 +1,6 @@
 package org.hexalite.stronghold.rsocket.server.controller
 
-import org.hexalite.stronghold.data.exceptions.UserNotFoundException
+import org.hexalite.stronghold.data.exception.UserNotFoundException
 import org.hexalite.stronghold.data.serialization.parseUuidOrNull
 import org.hexalite.stronghold.data.user.User
 import org.hexalite.stronghold.data.user.protocol.UserRequestPayload

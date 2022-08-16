@@ -9,7 +9,8 @@ class WarnDefaultValuesComponent(
     @Value("\${db.user}") user: String,
     @Value("\${db.password}") password: String,
     @Value("\${db.url}") url: String,
-    @Value("\${security.jwt.secret-key}") secretKey: String
+    @Value("\${security.jwt.secret-key}") secretKey: String,
+    @Value("\${redis.password}") redisPassword: String
 ) {
     companion object {
         val logger = LoggerFactory.getLogger(WarnDefaultValuesComponent::class.java)
@@ -37,6 +38,13 @@ class WarnDefaultValuesComponent(
                 "Your 'db.password' is set to the default value. It SURELY open vulnerabilities since it is a pretty common"
                         + " default value at development environments. Please make sure to override it by setting the"
                         + " 'DATABASE_PASSWORD' property."
+            )
+        }
+        if (redisPassword == "password") {
+            logger.warn(
+                "Your 'redis.password' is set to the default value. It SURELY open vulnerabilities since it is a pretty"
+                        + " common default value at development environments. Please make sure to override it by setting"
+                        + " the 'DATABASE_PASSWORD' property."
             )
         }
         if (url.startsWith("postgresql://localhost:5432")) {

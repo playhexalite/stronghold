@@ -1,4 +1,4 @@
-package org.hexalite.stronghold.data.exceptions
+package org.hexalite.stronghold.data.exception
 
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ResponseStatus

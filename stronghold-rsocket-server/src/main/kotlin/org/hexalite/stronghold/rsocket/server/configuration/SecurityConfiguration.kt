@@ -9,6 +9,7 @@ import org.hexalite.stronghold.rsocket.server.service.UserService
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.data.redis.core.ReactiveStringRedisTemplate
 import org.springframework.messaging.rsocket.RSocketStrategies
 import org.springframework.messaging.rsocket.annotation.support.RSocketMessageHandler
 import org.springframework.security.authentication.ReactiveAuthenticationManager
@@ -35,10 +36,18 @@ import javax.crypto.spec.SecretKeySpec
 @EnableRSocketSecurity
 @EnableReactiveMethodSecurity
 class SecurityConfiguration(
-    @Value("\${security.auth.strategy}") private val strategy: String,
+    @Value("\${security.auth.strategy}") strategy: String,
     @Value("\${security.jwt.secret-key}") private val secretKey: String,
-    private val users: UserService
+    redis: ReactiveStringRedisTemplate,
+    users: UserService
 ) {
+
+
+    val strategy = when (strategy.lowercase()) {
+        "renewing" -> RenewingKeyStrategy(users, redis, secretKey)
+        else -> throw IllegalStateException("Invalid auth strategy provided: '$strategy'.")
+    }
+
     @Bean
     fun messageHandler(strategies: RSocketStrategies) = RSocketMessageHandler().apply {
         routeMatcher = PathPatternRouteMatcher()
@@ -60,10 +69,6 @@ class SecurityConfiguration(
     @Suppress("ReactiveStreamsUnusedPublisher")
     @Bean
     fun authentication(decoder: ReactiveJwtDecoder): ReactiveAuthenticationManager {
-        val strategy = when (strategy.lowercase()) {
-            "renewing" -> RenewingKeyStrategy(users)
-            else -> throw IllegalStateException("Invalid auth strategy provided: '$strategy'.")
-        }
         val converter = ReactiveJwtAuthenticationConverterAdapter(JwtAuthenticationConverter())
         return ReactiveAuthenticationManager { auth ->
             flowOf(auth)
