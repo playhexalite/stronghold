@@ -3,7 +3,7 @@ COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
 RUN gradle build --no-daemon
 
-FROM openjdk:18-jdk-alpine
+FROM openjdk:19-jdk-alpine
 VOLUME /stronghold-rsocket-server-service
 EXPOSE 7000
 RUN mkdir /app
