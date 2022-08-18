@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: stronghold-server
+  main:
+    lazy-initialization: true
+    web-application-type: reactive
+server:
+  port: ${REST_PORT:8080}
+  address: ${REST_ADDRESS:}

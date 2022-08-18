@@ -1,9 +1,11 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    alias(stronghold.plugins.spring.boot)
-    alias(stronghold.plugins.spring.dependency.management)
-    alias(stronghold.plugins.kotlin.spring)
+    id("spring-conventions")
 }
 
 dependencies {
+}
+
+springBoot {
+    mainClass.set("org.hexalite.spring.rest.server.StrongholdRestApplication")
 }

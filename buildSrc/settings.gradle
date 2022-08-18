@@ -1,0 +1,9 @@
+enableFeaturePreview("VERSION_CATALOGS")
+
+dependencyResolutionManagement {
+    versionCatalogs {
+        stronghold {
+            from(files("../stronghold.libs.toml"))
+        }
+    }
+}

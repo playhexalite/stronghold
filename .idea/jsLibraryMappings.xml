@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavaScriptLibraryMappings">
+    <excludedPredefinedLibrary name="Dependencies from stronghold/build/js/packages/stronghold-stronghold-data-common-test/package.json" />
+    <excludedPredefinedLibrary name="Dependencies from stronghold/build/js/packages/stronghold-stronghold-rest-client-test/package.json" />
+    <excludedPredefinedLibrary name="Dependencies from stronghold/build/js/packages/stronghold-stronghold-rsocket-client-test/package.json" />
+    <excludedPredefinedLibrary name="Dependencies from stronghold/build/js/packages_imported/Kotlin-DateTime-library-kotlinx-datetime-js-ir/0.4.0/package.json" />
+  </component>
+</project>

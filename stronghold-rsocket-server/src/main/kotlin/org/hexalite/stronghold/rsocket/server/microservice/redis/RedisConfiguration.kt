@@ -18,14 +18,26 @@ class RedisConfiguration(
     @Value("\${redis.command-timeout}") val commandTimeout: Long,
     @Value("\${redis.host}") val host: String,
     @Value("\${redis.port}") val port: Int,
+    @Value("\${redis.username}") val username: String,
     @Value("\${redis.password}") val password: String,
+    @Value("\${redis.database-index}") val databaseIndex: Int
 ) {
     @Bean
-    fun connection() = LettuceConnectionFactory(
+    fun connection(): LettuceConnectionFactory = LettuceConnectionFactory(
         if (preferUnixDomainSocket && !System.getProperty("os.name").startsWith("Windows"))
             RedisSocketConfiguration("/var/run/redis.sock")
         else
-            RedisStandaloneConfiguration(host, port),
+            RedisStandaloneConfiguration(host, port).apply {
+                val pass = this@RedisConfiguration.password
+                val user = this@RedisConfiguration.username
+                if (user.isNotBlank()) {
+                    username = user
+                }
+                if (pass.isNotBlank()) {
+                    password = RedisPassword.of(pass)
+                }
+                database = databaseIndex
+            },
         LettuceClientConfiguration.builder()
             .also {
                 if (useSsl)
@@ -34,14 +46,7 @@ class RedisConfiguration(
             .commandTimeout(Duration.ofSeconds(commandTimeout))
             .shutdownTimeout(Duration.ZERO)
             .build()
-    ).apply {
-        (socketConfiguration ?: standaloneConfiguration).apply {
-            val pass = this@RedisConfiguration.password
-            if (pass.isNotBlank()) {
-                password = RedisPassword.of(pass)
-            }
-        }
-    }
+    )
 
     @Bean
     fun template(factory: LettuceConnectionFactory) = ReactiveStringRedisTemplate(factory)

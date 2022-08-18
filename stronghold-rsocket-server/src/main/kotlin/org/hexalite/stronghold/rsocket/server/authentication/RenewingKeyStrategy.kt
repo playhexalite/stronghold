@@ -31,7 +31,7 @@ value class RenewingForm(val passed: Boolean) {
                 )
             if (
                 expiration.toEpochMilliseconds() < System.currentTimeMillis()
-                || strategy.users.findById(userId)?.roles?.value?.contains(UserRole.Administrator) != true
+                || strategy.users.findById(userId)?.roles?.get()?.contains(UserRole.Administrator) != true
             ) {
                 return RenewingForm(false)
             }
@@ -58,18 +58,17 @@ class RenewingKeyStrategy(
             val minutes = 4..16L
             val signer = MACSigner(secretKey)
             while (true) {
-                val interval = minutes.random(seed)
-                val expiration = Date.from(Instant.now().plusSeconds(interval * 60))
+                val interval = minutes.random(seed) * 60
+                val expiration = Date.from(Instant.now().plusSeconds(interval))
                 val claims = JWTClaimsSet.Builder()
                     .subject(administrator)
                     .expirationTime(expiration)
                     .jwtID(UUID.randomUUID().toString())
                     .build()
                 val header = JWSHeader.Builder(JWSAlgorithm.HS256).build()
-                val token = JWSObject(header, claims.toPayload()).apply { sign(signer) }
-                redis.opsForValue().set(RedisBaseKey.AccessToken, token.serialize()).awaitSingleOrNull()
-                println("debug => set token to $token")
-                delay(interval)
+                val token = JWSObject(header, claims.toPayload()).apply { sign(signer) }.serialize()
+                redis.opsForValue().set(RedisBaseKey.AccessToken, token).awaitSingleOrNull()
+                delay(interval * 1000)
             }
         }
     }

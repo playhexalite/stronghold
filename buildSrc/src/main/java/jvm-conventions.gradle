@@ -1,0 +1,60 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm'
+    id 'org.jetbrains.kotlin.plugin.serialization'
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    def common = 'stronghold-data-common'
+    if (!project.name.contains(common)) {
+        api project(":$common")
+    }
+    implementation stronghold.bundles.kotlin
+    implementation stronghold.kotlinx.serialization.cbor
+    implementation stronghold.uuid
+    testImplementation stronghold.mockk
+}
+
+archivesBaseName = project.name
+
+tasks {
+    compileJava {
+        options.encoding = 'UTF-8'
+    }
+    compileKotlin {
+        kotlinOptions {
+            freeCompilerArgs = ['-Xjsr305=strict']
+            jvmTarget = '17'
+            apiVersion = '1.8'
+            languageVersion = '1.8'
+        }
+    }
+    compileTestKotlin {
+        kotlinOptions {
+            freeCompilerArgs = ['-Xjsr305=strict']
+            jvmTarget = '17'
+            apiVersion = '1.8'
+            languageVersion = '1.8'
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+kotlin {
+    jvmToolchain {
+        it.languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+java {
+    toolchain {
+        it.languageVersion = JavaLanguageVersion.of(17)
+    }
+}

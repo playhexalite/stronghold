@@ -14,4 +14,5 @@ include(
     ":stronghold-data-common",
     ":stronghold-rsocket-client",
     ":stronghold-rest-server",
+    ":stronghold-rest-client",
 )

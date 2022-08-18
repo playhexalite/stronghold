@@ -1,5 +1,6 @@
 [versions]
 kotlin = "1.7.20-Beta"
+ktor = "2.1.0"
 
 [libraries]
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version = "1.4.0-RC" }
@@ -8,12 +9,19 @@ kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version 
 caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version = "3.1.1" }
 mockk = { module = "io.mockk:mockk", version = "1.12.5" }
 lettuce = { module = "io.lettuce:lettuce-core", version = "6.2.0.RELEASE" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+ktor-client-rsocket = { module = "io.rsocket.kotlin:rsocket-ktor-client", version = "0.5.4" }
+spring-web = { module = "org.springframework:spring-web", version = "5.3.22" }
+uuid = { module = "com.benasher44:uuid", version = "0.5.0" }
 
 [bundles]
 kotlin = ["kotlinx-serialization", "kotlinx-datetime"]
+ktor = ["ktor-client-core", "ktor-client-cio", "ktor-client-rsocket"]
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 spring-boot = { id = "org.springframework.boot", version = "2.7.2" }

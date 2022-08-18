@@ -4,7 +4,7 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.cbor.Cbor
 import kotlinx.serialization.encodeToByteArray
 import org.hexalite.stronghold.data.user.User
-import org.hexalite.stronghold.data.io.KotlinxSerializationCborDecoder
+import org.hexalite.stronghold.rsocket.server.io.KotlinxSerializationCborDecoder
 import org.junit.jupiter.api.Test
 import org.springframework.core.ResolvableType
 import org.springframework.core.io.buffer.DefaultDataBufferFactory

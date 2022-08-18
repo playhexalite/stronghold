@@ -17,7 +17,7 @@ class WarnDefaultValuesComponent(
     }
 
     init {
-        if (secretKey == "testKey000") {
+        if (secretKey == "ca7iiRP5wVMe/lJoKq/JlIfjQ5IDw0esrHdAWfJC+6c=") {
             if (user == "johndoe") {
                 logger.warn(
                     "Your 'security.jwt.secret-key' is set to the default value. It SURELY open vulnerabilities since"
