@@ -1,6 +1,6 @@
 plugins {
     id("mpp-conventions")
-    id("mpp-publishing-conventions")
+    id("publishing-conventions")
 }
 
 kotlin {
