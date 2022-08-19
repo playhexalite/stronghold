@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation stronghold.lettuce
+    implementation stronghold.lettuce.core
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation 'org.springframework.boot:spring-boot-starter-security'

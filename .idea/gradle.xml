@@ -10,6 +10,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/buildSrc" />
+            <option value="$PROJECT_DIR$/mpp-redis-wrapper" />
             <option value="$PROJECT_DIR$/stronghold-data-common" />
             <option value="$PROJECT_DIR$/stronghold-rest-client" />
             <option value="$PROJECT_DIR$/stronghold-rest-server" />

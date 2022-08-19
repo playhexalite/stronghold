@@ -1,0 +1,6 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="mpp-redis-wrapper-js-0.0.1-SNAPSHOT">
+    <output-path>$PROJECT_DIR$/mpp-redis-wrapper/build/libs</output-path>
+    <root id="archive" name="mpp-redis-wrapper-js-0.0.1-SNAPSHOT.jar" />
+  </artifact>
+</component>

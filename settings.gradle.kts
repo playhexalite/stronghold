@@ -15,4 +15,5 @@ include(
     ":stronghold-rsocket-client",
     ":stronghold-rest-server",
     ":stronghold-rest-client",
+    ":mpp-redis-wrapper"
 )

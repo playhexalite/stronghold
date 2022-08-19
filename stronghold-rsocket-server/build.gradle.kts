@@ -1,4 +1,5 @@
-@Suppress("DSL_SCOPE_VIOLATION")
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+
 plugins {
     id("spring-conventions")
 }
@@ -18,6 +19,6 @@ dependencies {
     testImplementation("org.springframework.amqp:spring-rabbit-test")
 }
 
-springBoot {
+tasks.named<BootJar>("bootJar") {
     mainClass.set("org.hexalite.spring.rsocket.server.StrongholdServerApplication")
 }
