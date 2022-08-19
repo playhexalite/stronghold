@@ -1,4 +1,3 @@
-@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("mpp-conventions")
 }
@@ -6,6 +5,17 @@ plugins {
 kotlin {
     val commonMain by sourceSets.getting {
         dependencies {
+            implementation(stronghold.bundles.ktor)
+        }
+    }
+    val jvmMain by sourceSets.getting {
+        dependencies {
+            implementation(stronghold.ktor.client.cio)
+        }
+    }
+    val jsMain by sourceSets.getting {
+        dependencies {
+            implementation(stronghold.ktor.client.js)
         }
     }
 }

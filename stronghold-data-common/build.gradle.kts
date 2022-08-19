@@ -1,9 +1,12 @@
-@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("mpp-conventions")
 }
 
 kotlin {
+    js(IR) {
+        browser()
+        nodejs()
+    }
     val jvmMain by sourceSets.getting {
         dependencies {
             implementation(stronghold.spring.web)

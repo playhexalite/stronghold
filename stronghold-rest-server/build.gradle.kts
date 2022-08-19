@@ -1,4 +1,5 @@
-@Suppress("DSL_SCOPE_VIOLATION")
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+
 plugins {
     id("spring-conventions")
 }
@@ -6,6 +7,6 @@ plugins {
 dependencies {
 }
 
-springBoot {
+tasks.named<BootJar>("bootJar") {
     mainClass.set("org.hexalite.spring.rest.server.StrongholdRestApplication")
 }
