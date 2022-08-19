@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="stronghold-rsocket-client-js-0.1.0-SNAPSHOT">
+    <output-path>$PROJECT_DIR$/stronghold-rsocket-client/build/libs</output-path>
+    <root id="archive" name="stronghold-rsocket-client-js-0.1.0-SNAPSHOT.jar">
+      <element id="module-output" name="stronghold.stronghold-rsocket-client.jsMain" />
+    </root>
+  </artifact>
+</component>

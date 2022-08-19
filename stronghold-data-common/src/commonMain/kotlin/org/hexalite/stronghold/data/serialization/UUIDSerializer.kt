@@ -33,7 +33,7 @@ object UuidSerializer : KSerializer<Uuid> {
         )
 
     private fun String.throwBadFormatSerializationException(): Nothing =
-        throw SerializationException("Invalid Uuid format: $this")
+        throw SerializationException("Invalid UUID format: $this")
 
     private fun String.byte(index: Int): Int {
         val character = get(index)
