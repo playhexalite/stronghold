@@ -6,14 +6,24 @@ plugins {
 kotlin {
     jvm().compilations.all {
         kotlinOptions {
-            freeCompilerArgs = ['-Xjsr305=strict']
             jvmTarget = '17'
-            apiVersion = '1.8'
-            languageVersion = '1.8'
         }
     }
     js(IR) {
         nodejs()
+    }
+    targets.all {
+        compilations.all {
+            kotlinOptions {
+                freeCompilerArgs = [
+                        '-Xjsr305=strict',
+                        '-opt-in=kotlin.RequiresOptIn',
+                        '-Xcontext-receivers'
+                ]
+                apiVersion = '1.8'
+                languageVersion = '1.8'
+            }
+        }
     }
     sourceSets {
         commonMain {

@@ -1,6 +1,6 @@
 plugins {
     id 'maven-publish'
-    id 'signing'
+    id 'signing' apply false
 }
 
 def secrets = rootProject.file("local.properties")
@@ -79,9 +79,13 @@ publishing {
     }
 }
 
-signing {
-    setRequired {
-        project.ext.has("signing.keyId")
+def hasSigningId = project.ext.has("signing.keyId")
+if (hasSigningId) {
+    apply plugin: 'signing'
+    signing {
+        setRequired {
+            hasSigningId
+        }
+        sign(publishing.publications)
     }
-    sign(publishing.publications)
 }
