@@ -79,7 +79,7 @@ publishing {
     }
 }
 
-if(project.ext.has("signing.keyId") && project.ext.signing.keyId != null) {
+if(project.ext.has("signing.keyId")) {
     signing {
         sign(publishing.publications)
     }
