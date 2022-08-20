@@ -36,7 +36,7 @@ publishing {
                 }
             }
         }
-        if (project.ext.ossrhUsername != null) {
+        if (project.ext.has("ossrhUsername")) {
             maven {
                 name = "Sonatype"
                 if (project.ext.isReleaseVersion) {
@@ -79,7 +79,7 @@ publishing {
     }
 }
 
-if(ext.signing.keyId != null) {
+if(project.ext.has("signing.keyId") && project.ext.signing.keyId != null) {
     signing {
         sign(publishing.publications)
     }
