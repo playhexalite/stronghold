@@ -79,13 +79,9 @@ publishing {
     }
 }
 
-def hasSigningId = project.ext.has("signing.keyId")
-if (hasSigningId) {
-    apply plugin: 'signing'
-    signing {
-        setRequired {
-            hasSigningId
-        }
-        sign(publishing.publications)
+signing {
+    required {
+        project.ext.has("signing.keyId")
     }
+    sign(publishing.publications)
 }
