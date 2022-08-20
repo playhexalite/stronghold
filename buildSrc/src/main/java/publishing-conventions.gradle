@@ -79,10 +79,9 @@ publishing {
     }
 }
 
-if(project.ext.has("signing.keyId")) {
-    signing {
-        sign(publishing.publications)
+signing {
+    setRequired {
+        project.ext.has("signing.keyId")
     }
-} else {
-    tasks.withType(Sign)*.enabled = false
+    sign(publishing.publications)
 }
