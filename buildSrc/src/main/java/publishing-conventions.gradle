@@ -83,4 +83,6 @@ if(project.ext.has("signing.keyId")) {
     signing {
         sign(publishing.publications)
     }
+} else {
+    tasks.withType(Sign)*.enabled = false
 }
