@@ -1,22 +1,59 @@
 plugins {
     id 'maven-publish'
+    id 'signing'
+}
+
+def secrets = rootProject.file("local.properties")
+if (secrets.exists()) {
+    def Properties properties = new Properties()
+    properties.load(secrets.newDataInputStream())
+    properties.stringPropertyNames().forEach { key ->
+        ext.set(key, properties.getProperty(key))
+    }
+} else {
+    ext.set("signing.keyId", System.getenv("SIGNING_KEY_ID"))
+    ext.set("signing.password", System.getenv("SIGNING_PASSWORD"))
+    ext.set("signing.secretKeyRingFile", System.getenv("SIGNING_SECRET_KEY_RING_FILE"))
+    ext.set("ossrhUsername", System.getenv("OSSRH_USERNAME"))
+    ext.set("ossrhPassword", System.getenv("OSSRH_PASSWORD"))
+}
+ext.set("isReleaseVersion", !version.endsWith("SNAPSHOT"))
+
+def javadocJar = tasks.register('jar', Jar) {
+    it.archiveClassifier.set("javadoc")
 }
 
 publishing {
     repositories {
+        def actor = System.getenv("GITHUB_ACTOR")
+        if (actor != null) {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/playhexalite/${rootProject.name}")
+                credentials {
+                    it.username = actor
+                    it.password = System.getenv("GITHUB_TOKEN")
+                }
+            }
+        }
         maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/playhexalite/stronghold")
+            name = "Sonatype"
+            if (project.ext.isReleaseVersion) {
+                url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+            } else {
+                url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+            }
             credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
+                it.username = project.ext.ossrhUsername
+                it.password = project.ext.ossrhPassword
             }
         }
     }
     publications.withType(MavenPublication) {
+        artifact(javadocJar.get())
         pom {
             name = project.name
-            url = "https://git.hexalite.org/stronghold"
+            url = "https://git.hexalite.org/${rootProject.name}"
             licenses {
                 license {
                     name = "GNU Affero General Public License, Version 3.0"
@@ -32,10 +69,14 @@ publishing {
                 }
             }
             scm {
-                connection = "scm:git:git://https://git.hexalite.org/stronghold.git"
-                developerConnection = "scm:git:ssh://https://git.hexalite.org/stronghold.git"
-                url = "https://git.hexalite.org/stronghold/tree/dev/next"
+                connection = "scm:git:git://https://git.hexalite.org/${rootProject.name}.git"
+                developerConnection = "scm:git:ssh://https://git.hexalite.org/${rootProject.name}.git"
+                url = "https://git.hexalite.org/${rootProject.name}/tree/dev/next"
             }
         }
     }
+}
+
+signing {
+    sign(publishing.publications)
 }
