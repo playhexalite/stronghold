@@ -26,7 +26,7 @@ actual class OptionalSerializer<T: Any>(private val serializer: KSerializer<T>) 
     }
 
     override fun serialize(encoder: Encoder, value: Optional<T>) {
-        serializer.serialize(encoder, value.value as? T? ?: return)
+        serializer.serialize(encoder, value.get() ?: return)
     }
 }
 
