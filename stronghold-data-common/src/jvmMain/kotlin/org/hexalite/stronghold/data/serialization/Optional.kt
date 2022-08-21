@@ -27,11 +27,10 @@ actual class OptionalSerializer<T: Any>(private val serializer: KSerializer<T>) 
     }
 
     override fun serialize(encoder: Encoder, value: Optional<T>) {
-        serializer.serialize(encoder, value.value as? T? ?: return)
+        serializer.serialize(encoder, value.get() ?: return)
     }
 }
 
 actual inline fun <T> emptyOptional() = Optional<T & Any>(null)
 
 actual inline fun <T> T?.optional() = Optional<T & Any>(this)
-
