@@ -213,13 +213,25 @@ data class Either<L, R> @PublishedApi internal constructor(
      * Take the value of another [Either] bound to the [left] side ([L]).
      * @param other
      */
-    fun <L> takeLeft(other: Either<L, *>): Either<L, R> = Either(other.left, right)
+    @OptIn(ExperimentalContracts::class)
+    fun <L> takeLeft(other: () -> Either<L, *>?): Either<L, R> {
+        contract {
+            callsInPlace(other, InvocationKind.EXACTLY_ONCE)
+        }
+        return Either(other()?.left, right)
+    }
 
     /**
      * Take the value of another [Either] bound to the [right] side ([R]).
      * @param other
      */
-    fun <R> takeRight(other: Either<*, R>): Either<L, R> = Either(left, other.right)
+    @OptIn(ExperimentalContracts::class)
+    fun <R> takeRight(other: () -> Either<*, R>?): Either<L, R> {
+        contract {
+            callsInPlace(other, InvocationKind.EXACTLY_ONCE)
+        }
+        return Either(left, other()?.right)
+    }
 
     /**
      * Returns an [Either] type with the value bound to the [left] side ([L]) as the result of the given
