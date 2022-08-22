@@ -214,6 +214,7 @@ data class Either<L, R> @PublishedApi internal constructor(
      * @param other
      */
     @OptIn(ExperimentalContracts::class)
+    @Dsl
     inline fun <L> takeLeft(other: () -> Either<L, *>?): Either<L, R> {
         contract {
             callsInPlace(other, InvocationKind.EXACTLY_ONCE)
@@ -226,6 +227,7 @@ data class Either<L, R> @PublishedApi internal constructor(
      * @param other
      */
     @OptIn(ExperimentalContracts::class)
+    @Dsl
     inline fun <R> takeRight(other: () -> Either<*, R>?): Either<L, R> {
         contract {
             callsInPlace(other, InvocationKind.EXACTLY_ONCE)
@@ -239,6 +241,7 @@ data class Either<L, R> @PublishedApi internal constructor(
      * @param callback
      */
     @OptIn(ExperimentalContracts::class)
+    @Dsl
     inline fun withLeft(callback: () -> L?): Either<L, R> {
         contract {
             callsInPlace(callback, InvocationKind.EXACTLY_ONCE)
@@ -252,6 +255,7 @@ data class Either<L, R> @PublishedApi internal constructor(
      * @param callback
      */
     @OptIn(ExperimentalContracts::class)
+    @Dsl
     inline fun withRight(callback: () -> R?): Either<L, R> {
         contract {
             callsInPlace(callback, InvocationKind.EXACTLY_ONCE)
