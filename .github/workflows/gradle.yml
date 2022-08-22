@@ -28,9 +28,3 @@ jobs:
             ${{ runner.os }}-gradle-
       - name: Check for code errors (Gradle)
         run: ./gradlew check
-      - name: Publish package
-        uses: gradle/gradle-build-action@cd579d970f8aec1cf0cae5f62a8e418768970015
-        with:
-          arguments: publish
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
