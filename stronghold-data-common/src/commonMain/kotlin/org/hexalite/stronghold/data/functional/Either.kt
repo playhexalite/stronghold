@@ -10,6 +10,7 @@ import org.hexalite.stronghold.data.functional.Either.Companion.either
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
+import kotlin.js.JsName
 
 /**
  * A wrapper for a value that may be two distinct types. It is inspired by the functional programming
@@ -36,7 +37,14 @@ import kotlin.contracts.contract
  * @param R The required type to the value be bound at right.
  */
 @Serializable(with = Either.Serializer::class)
-data class Either<L, R> private constructor(private var left: L? = null, private var right: R? = null) {
+data class Either<L, R> @PublishedApi internal constructor(
+    @PublishedApi
+    @JsName("leftValue")
+    internal var left: L? = null,
+    @PublishedApi
+    @JsName("rightValue")
+    internal var right: R? = null
+) {
     init {
         require((left != null && right == null) || (left == null && right != null))
     }
@@ -78,32 +86,56 @@ data class Either<L, R> private constructor(private var left: L? = null, private
      * function. This function is highly inspired by Rust's `Result#expect`.
      * @param error
      */
+    @OptIn(ExperimentalContracts::class)
     @Dsl
-    fun leftOrThrow(error: () -> Throwable) = leftOrNull() ?: throw error()
+    inline fun leftOrThrow(error: () -> Throwable): L {
+        contract {
+            callsInPlace(error, InvocationKind.EXACTLY_ONCE)
+        }
+        return leftOrNull() ?: throw error()
+    }
 
     /**
      * Returns the value bound at the right type ([R]) or throws the exception returned by the given [error]
      * function. This function is highly inspired by Rust's `Result#expect`.
      * @param error
      */
+    @OptIn(ExperimentalContracts::class)
     @Dsl
-    fun rightOrThrow(error: () -> Throwable) = rightOrNull() ?: throw error()
+    inline fun rightOrThrow(error: () -> Throwable): R {
+        contract {
+            callsInPlace(error, InvocationKind.EXACTLY_ONCE)
+        }
+        return rightOrNull() ?: throw error()
+    }
 
     /**
      * Returns the value bound at the left type ([L]) or returns the default value returned by the given
      * [default] function.
      * @param default
      */
+    @OptIn(ExperimentalContracts::class)
     @Dsl
-    fun leftOrDefault(default: () -> L) = leftOrNull() ?: default()
+    inline fun leftOrDefault(default: () -> L): L {
+        contract {
+            callsInPlace(default, InvocationKind.EXACTLY_ONCE)
+        }
+        return leftOrNull() ?: default()
+    }
 
     /**
      * Returns the value bound at the right type ([R]) or returns the default value returned by the given
      * [default] function.
      * @param default
      */
+    @OptIn(ExperimentalContracts::class)
     @Dsl
-    fun rightOrDefault(default: () -> R) = rightOrNull() ?: default()
+    inline fun rightOrDefault(default: () -> R): R {
+        contract {
+            callsInPlace(default, InvocationKind.EXACTLY_ONCE)
+        }
+        return rightOrNull() ?: default()
+    }
 
     /**
      * Returns a Kotlin's [Result] representation from this [Either] binding.
@@ -120,7 +152,7 @@ data class Either<L, R> private constructor(private var left: L? = null, private
      */
     @Dsl
     @OptIn(ExperimentalContracts::class)
-    fun <T> mapLeft(transform: (L) -> T): Either<T, R> {
+    inline fun <T> mapLeft(transform: (L) -> T): Either<T, R> {
         contract {
             callsInPlace(transform, InvocationKind.EXACTLY_ONCE)
         }
@@ -133,7 +165,7 @@ data class Either<L, R> private constructor(private var left: L? = null, private
      */
     @Dsl
     @OptIn(ExperimentalContracts::class)
-    fun <T> mapRight(transform: (R) -> T): Either<L, T> {
+    inline fun <T> mapRight(transform: (R) -> T): Either<L, T> {
         contract {
             callsInPlace(transform, InvocationKind.EXACTLY_ONCE)
         }
@@ -145,9 +177,14 @@ data class Either<L, R> private constructor(private var left: L? = null, private
      * This is similar to 'fire-and-forget'.
      * @param callback
      */
+    @OptIn(ExperimentalContracts::class)
     @Dsl
-    inline fun ifLeft(callback: (L) -> Unit): Either<L, R> = also {
-        callback(leftOrNull() ?: return@also)
+    inline fun ifLeft(callback: (L) -> Unit): Either<L, R> {
+        contract {
+            callsInPlace(callback, InvocationKind.EXACTLY_ONCE)
+        }
+        callback(leftOrNull() ?: return this)
+        return this
     }
 
     /**
@@ -155,9 +192,14 @@ data class Either<L, R> private constructor(private var left: L? = null, private
      * This is similar to 'fire-and-forget'.
      * @param callback
      */
+    @OptIn(ExperimentalContracts::class)
     @Dsl
-    inline fun ifRight(callback: (R) -> Unit): Either<L, R> = also {
-        callback(rightOrNull() ?: return@also)
+    inline fun ifRight(callback: (R) -> Unit): Either<L, R> {
+        contract {
+            callsInPlace(callback, InvocationKind.EXACTLY_ONCE)
+        }
+        callback(rightOrNull() ?: return this)
+        return this
     }
 
     /**
@@ -166,6 +208,44 @@ data class Either<L, R> private constructor(private var left: L? = null, private
      *   [R] -> [L]
      */
     fun swap(): Either<R, L> = Either(right, left)
+
+    /**
+     * Take the value of another [Either] bound to the [left] side ([L]).
+     * @param other
+     */
+    fun <L> takeLeft(other: Either<L, *>): Either<L, R> = Either(other.left, right)
+
+    /**
+     * Take the value of another [Either] bound to the [right] side ([R]).
+     * @param other
+     */
+    fun <R> takeRight(other: Either<*, R>): Either<L, R> = Either(left, other.right)
+
+    /**
+     * Returns an [Either] type with the value bound to the [left] side ([L]) as the result of the given
+     * [callback], if not null.
+     * @param callback
+     */
+    @OptIn(ExperimentalContracts::class)
+    inline fun withLeft(callback: () -> L?): Either<L, R> {
+        contract {
+            callsInPlace(callback, InvocationKind.EXACTLY_ONCE)
+        }
+        return Either(callback() ?: return this, right)
+    }
+
+    /**
+     * Returns an [Either] type with the value bound to the [right] side ([R]) as the result of the given
+     * [callback], if not null.
+     * @param callback
+     */
+    @OptIn(ExperimentalContracts::class)
+    inline fun withRight(callback: () -> R?): Either<L, R> {
+        contract {
+            callsInPlace(callback, InvocationKind.EXACTLY_ONCE)
+        }
+        return Either(left, callback() ?: return this)
+    }
 
     // overridden types
     override fun toString(): String = (left ?: right).toString()
