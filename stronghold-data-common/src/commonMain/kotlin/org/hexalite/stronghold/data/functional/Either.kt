@@ -210,11 +210,11 @@ data class Either<L, R> @PublishedApi internal constructor(
     fun swap(): Either<R, L> = Either(right, left)
 
     /**
-     * Take the value of another [Either] bound to the [left] side ([L]).
+     * Takes the value of another [Either] bound to the [left] side ([L]).
      * @param other
      */
     @OptIn(ExperimentalContracts::class)
-    fun <L> takeLeft(other: () -> Either<L, *>?): Either<L, R> {
+    inline fun <L> takeLeft(other: () -> Either<L, *>?): Either<L, R> {
         contract {
             callsInPlace(other, InvocationKind.EXACTLY_ONCE)
         }
@@ -222,11 +222,11 @@ data class Either<L, R> @PublishedApi internal constructor(
     }
 
     /**
-     * Take the value of another [Either] bound to the [right] side ([R]).
+     * Takes the value of another [Either] bound to the [right] side ([R]).
      * @param other
      */
     @OptIn(ExperimentalContracts::class)
-    fun <R> takeRight(other: () -> Either<*, R>?): Either<L, R> {
+    inline fun <R> takeRight(other: () -> Either<*, R>?): Either<L, R> {
         contract {
             callsInPlace(other, InvocationKind.EXACTLY_ONCE)
         }
