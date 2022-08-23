@@ -90,7 +90,7 @@ data class Either<L, R> @PublishedApi internal constructor(
     @Dsl
     inline fun leftOrThrow(error: () -> Throwable): L {
         contract {
-            callsInPlace(error, InvocationKind.EXACTLY_ONCE)
+            callsInPlace(error, InvocationKind.AT_MOST_ONCE)
         }
         return leftOrNull() ?: throw error()
     }
@@ -104,7 +104,7 @@ data class Either<L, R> @PublishedApi internal constructor(
     @Dsl
     inline fun rightOrThrow(error: () -> Throwable): R {
         contract {
-            callsInPlace(error, InvocationKind.EXACTLY_ONCE)
+            callsInPlace(error, InvocationKind.AT_MOST_ONCE)
         }
         return rightOrNull() ?: throw error()
     }
@@ -118,7 +118,7 @@ data class Either<L, R> @PublishedApi internal constructor(
     @Dsl
     inline fun leftOrDefault(default: () -> L): L {
         contract {
-            callsInPlace(default, InvocationKind.EXACTLY_ONCE)
+            callsInPlace(default, InvocationKind.AT_MOST_ONCE)
         }
         return leftOrNull() ?: default()
     }
@@ -132,7 +132,7 @@ data class Either<L, R> @PublishedApi internal constructor(
     @Dsl
     inline fun rightOrDefault(default: () -> R): R {
         contract {
-            callsInPlace(default, InvocationKind.EXACTLY_ONCE)
+            callsInPlace(default, InvocationKind.AT_MOST_ONCE)
         }
         return rightOrNull() ?: default()
     }
@@ -154,7 +154,7 @@ data class Either<L, R> @PublishedApi internal constructor(
     @OptIn(ExperimentalContracts::class)
     inline fun <T> mapLeft(transform: (L) -> T): Either<T, R> {
         contract {
-            callsInPlace(transform, InvocationKind.EXACTLY_ONCE)
+            callsInPlace(transform, InvocationKind.AT_MOST_ONCE)
         }
         return left(transform(left ?: return right(right ?: error("Both Either sides are bound to null."))))
     }
@@ -167,7 +167,7 @@ data class Either<L, R> @PublishedApi internal constructor(
     @OptIn(ExperimentalContracts::class)
     inline fun <T> mapRight(transform: (R) -> T): Either<L, T> {
         contract {
-            callsInPlace(transform, InvocationKind.EXACTLY_ONCE)
+            callsInPlace(transform, InvocationKind.AT_MOST_ONCE)
         }
         return right(transform(right ?: return left(left ?: error("Both Either sides are bound to null."))))
     }
@@ -181,7 +181,7 @@ data class Either<L, R> @PublishedApi internal constructor(
     @Dsl
     inline fun ifLeft(callback: (L) -> Unit): Either<L, R> {
         contract {
-            callsInPlace(callback, InvocationKind.EXACTLY_ONCE)
+            callsInPlace(callback, InvocationKind.AT_MOST_ONCE)
         }
         callback(leftOrNull() ?: return this)
         return this
@@ -196,7 +196,7 @@ data class Either<L, R> @PublishedApi internal constructor(
     @Dsl
     inline fun ifRight(callback: (R) -> Unit): Either<L, R> {
         contract {
-            callsInPlace(callback, InvocationKind.EXACTLY_ONCE)
+            callsInPlace(callback, InvocationKind.AT_MOST_ONCE)
         }
         callback(rightOrNull() ?: return this)
         return this
