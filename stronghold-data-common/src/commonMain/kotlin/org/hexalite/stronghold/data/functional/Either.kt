@@ -321,8 +321,12 @@ data class Either<L, R> @PublishedApi internal constructor(
          * otherwise [fallback] to an [Either] type bound to the [right] side ([R]).
          * @param fallback
          */
+        @OptIn(ExperimentalContracts::class)
         @Dsl
         inline fun <reified L, reified R> L?.either(fallback: () -> R & Any): Either<L, R> {
+            contract {
+                callsInPlace(fallback, InvocationKind.AT_MOST_ONCE)
+            }
             if (this != null) {
                 return left(this)
             }
